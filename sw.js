@@ -47,17 +47,18 @@ const staticAssets = [
 	'./manifest.webmanifest'
 ];
 const cache = 'static-cache';
+
 self.addEventListener('install', async e => {
 	const cached = await caches.open(cache);
 	await cached.addAll(staticAssets);
-	return self.skipWaiting();
+	//return self.skipWaiting();
 });
 
-self.addEventListener('activate', e => {
+/*self.addEventListener('activate', e => {
 	self.clients.claim();
-});
+});*/
 
-self.addEventListener('fetch', e => {
+/*self.addEventListener('fetch', e => {
 	const req = e.request;
 	const url = new URL(req.url);
 	if (url.origin === location.origin) {
@@ -65,6 +66,14 @@ self.addEventListener('fetch', e => {
 	} else {
 		e.respondWith(netAndCache(req));
 	}
+	
+});*/
+self.addEventListener('fetch', async e => {
+	const req = e.request;
+	//const url = new URL(req.url);
+	
+	e.respondWith(cacheOnly(req));
+	await update(req);
 	
 });
 
@@ -83,5 +92,30 @@ async function netAndCache (req) {
 async function cacheOnly (req) {
 	const cached = await caches.open(cache);
 	const cacheRespond = await cached.match(req);
-	return cacheRespond || fetch(req);
+	//return cacheRespond || fetch(req);
+	return cacheRespond;
+}
+
+async function update (req) {
+	const cached = await caches.open(cache);
+	try {
+		const res = await fetch(req);
+		await cached.put(req, res.clone());
+		return refresh(res);
+	} catch(e) {
+		// statements
+		console.log(e);
+	}
+}
+
+async function refresh (response) {
+	const clt = await self.clients.matchAll();
+	return clt.forEach(cltMsg => {
+		const msg = {
+			type: 'refresh',
+			url: response.url,
+			eTag: response.headers.get('ETag')
+		};
+		cltMsg.postMessage(JSON.stringify(msg));
+	});
 }
