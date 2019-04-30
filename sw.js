@@ -73,7 +73,10 @@ self.addEventListener('fetch', async e => {
 	//const url = new URL(req.url);
 	
 	e.respondWith(cacheOnly(req));
-	await update(req);
+	e.waitUntil(upd(req)
+		.then(refresh2)
+	);
+	//await update(req);
 	
 });
 
@@ -118,4 +121,40 @@ async function refresh (response) {
 		};
 		cltMsg.postMessage(JSON.stringify(msg));
 	});
+}
+
+function refresh2 (response) {
+	return self.clients.matchAll().then((clients) => {
+		clients.forEach((client) => {
+			// Подробнее про ETag можно прочитать тут
+			// https://en.wikipedia.org/wiki/HTTP_ETag
+			const message = {
+					type: 'refresh',
+					url: response.url,
+					eTag: response.headers.get('ETag')
+			};
+			// Уведомляем клиент об обновлении данных.
+			client.postMessage(JSON.stringify(message));
+		});
+	});
+}
+
+function fromCache (req) {
+	return caches.open(cache)
+		.then((cached) =>
+			cached.match(req)
+			.then((matching) =>
+				matching || Promise.reject('no-match')
+		));
+}
+
+function upd (req) {
+	return caches.open(cache)
+		.then((cached) =>
+			fetch(req)
+			.then((res) =>
+				cached.put(req, res.clone())
+				.then(() => res)
+			)
+		);
 }
