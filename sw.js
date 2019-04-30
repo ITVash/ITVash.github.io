@@ -1,7 +1,7 @@
 const staticAssets = [
 	'./',
 	'https://code.jquery.com/jquery-3.3.1.slim.min.js',
-	'https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700|Poppins:300,400,500,600,700',
+	'https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700|Poppins:300,400,500,600,700', 
 	'./img/top-bg.jpg',
 	'./img/Alexis.png',
 	'./img/icons/icon-144x144.png',
@@ -53,6 +53,10 @@ self.addEventListener('install', async e => {
 	return self.skipWaiting();
 });
 
+self.addEventListener('activate', e => {
+	self.clients.claim();
+});
+
 self.addEventListener('fetch', e => {
 	const req = e.request;
 	const url = new URL(req.url);
@@ -72,7 +76,7 @@ async function netAndCache (req) {
 		return res;
 	} catch(e) {
 		const cacheRead = await cached.match(req);
-		return await cacheRead;
+		return cacheRead;
 	}
 }
 
@@ -81,6 +85,3 @@ async function cacheOnly (req) {
 	const cacheRespond = await cached.match(req);
 	return cacheRespond || fetch(req);
 }
-self.addEventListener('activate', e => {
-	self.clients.claim();
-});
