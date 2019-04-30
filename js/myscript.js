@@ -9,12 +9,18 @@ window.addEventListener('beforeinstallprompt', (e) => {
 window.addEventListener('load', async e=>{
 	//loadDO();
 if ('serviceWorker' in navigator) {
-	try {
+	/*try {
 		navigator.serviceWorker.register('../sw.js');
 		console.log('SW Registered');
 	} catch(e) {
 		console.log('SW not Registered');
-	}
+	}*/
+	// Весь код регистрации у нас асинхронный.
+    navigator.serviceWorker.register('../sw.js')
+      .then(() => navigator.serviceWorker.ready.then((worker) => {
+        worker.sync.register('syncdata');
+      }))
+      .catch((err) => console.log(err));
 }
 });
 function loadDO () {
