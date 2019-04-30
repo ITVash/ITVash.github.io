@@ -44,7 +44,7 @@ const staticAssets = [
 	'./css/normalize.css',
 	'./css/style.css',
 	'./js/myscript.js',
-	'./manifest.json'
+	'./manifest.webmanifest'
 ];
 const cache = 'static-cache';
 self.addEventListener('install', async e => {
