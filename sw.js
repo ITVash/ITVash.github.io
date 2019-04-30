@@ -68,11 +68,12 @@ self.addEventListener('install', async e => {
 	}
 	
 });*/
-self.addEventListener('fetch', async e => {
+self.addEventListener('fetch', e => {
 	const req = e.request;
 	//const url = new URL(req.url);
 	
-	e.respondWith(cacheOnly(req));
+	//e.respondWith(cacheOnly(req));
+	e.respondWith(fromCache(req));
 	e.waitUntil(upd(req)
 		.then(refresh2)
 	);
