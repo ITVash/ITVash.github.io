@@ -2,6 +2,7 @@ const staticAssets = [
 	'./',
 	'https://code.jquery.com/jquery-3.3.1.slim.min.js',
 	'https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700|Poppins:300,400,500,600,700', 
+	'./favicon.ico',
 	'./img/top-bg.jpg',
 	'./img/Alexis.png',
 	'./img/icons/icon-144x144.png',
@@ -40,7 +41,6 @@ const staticAssets = [
 	'./img/user-plus.png',
 	'./img/uxdes.png',
 	'./img/webdes.png',
-	//'./img/*.{png,jpg}',
 	'./css/normalize.css',
 	'./css/style.css',
 	'./js/myscript.js',
@@ -68,17 +68,23 @@ self.addEventListener('install', async e => {
 	}
 	
 });*/
-self.addEventListener('fetch', e => {
+self.addEventListener('fetch', async e => {
 	const req = e.request;
 	//const url = new URL(req.url);
 	
-	//e.respondWith(cacheOnly(req));
-	e.respondWith(fromCache(req));
-	e.waitUntil(upd(req)
+	e.respondWith(cacheOnly(req));
+	//e.respondWith(fromCache(req));
+	/*e.waitUntil(upd(req)
 		.then(refresh2)
-	);
-	//await update(req);
+	);*/
+	const response = await update(req);
+	await refresh(response);
 	
+});
+
+self.addEventListener('message', e => {
+	console.log('Обновление контента: ', e.data);
+	e.source.postMessage('Обновление контента: ', e.origin)
 });
 
 async function netAndCache (req) {
@@ -105,20 +111,22 @@ async function update (req) {
 	try {
 		const res = await fetch(req);
 		await cached.put(req, res.clone());
-		return refresh(res);
+		//console.log('Должно быть обновление контента но хуй: '+ res);
+		return res;
+		//return refresh(res);
 	} catch(e) {
-		// statements
-		console.log(e);
+		const cacheRead = await cached.match(req);
+		return cacheRead;
 	}
 }
 
-async function refresh (response) {
+async function refresh (res) {
 	const clt = await self.clients.matchAll();
 	return clt.forEach(cltMsg => {
 		const msg = {
 			type: 'refresh',
-			url: response.url,
-			eTag: response.headers.get('ETag')
+			url: res.url,
+			eTag: res.headers.get('ETag')
 		};
 		cltMsg.postMessage(JSON.stringify(msg));
 	});
