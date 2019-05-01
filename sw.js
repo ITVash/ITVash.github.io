@@ -124,11 +124,9 @@ self.addEventListener('notificationclick', async e => {
 
 async function ref (res) {
 	var num = 1;
-	//const text = await res.data.text();
-	console.log('ссылка для перехода: ', res.url);
 	await self.registration.showNotification('Обновление контента', {
 		type: 'refresh',
-		url: res.url,
+		url: location.href,
 		body: ++num >1 ? 'Новые данные на ресурсе' : 'Полная херь',
 		icon: './img/icons/icon-72x72.png',
 		//eTag: res.headers.get('ETag')
