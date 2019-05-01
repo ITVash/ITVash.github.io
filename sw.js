@@ -90,7 +90,7 @@ self.addEventListener('message', e => {
 self.addEventListener('push', async e => {
 	var num = 1;
 	await self.registration.showNotification('Обновление контента', {
-		body: ++num > 1 ? 'Новый контент' : 'Херь для теста',
+		body: ++num > 1 ? e.data.text() : 'Херь для теста',
 		tag: 'spell'
 	});
 });
