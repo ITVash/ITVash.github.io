@@ -87,6 +87,14 @@ self.addEventListener('message', e => {
 	e.source.postMessage('Обновление контента: ', e.origin)
 });
 
+self.addEventListener('push', async e => {
+	const num = 1;
+	await self.registration.showNotification('Обновление контента', {
+		body: ++num > 1 ? 'Новый контент' : 'Херь для теста',
+		tag: 'spell'
+	});
+});
+
 async function netAndCache (req) {
 	const cached = await caches.open(cache);
 	try {
