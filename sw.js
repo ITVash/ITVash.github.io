@@ -79,6 +79,7 @@ self.addEventListener('fetch', async e => {
 	);*/
 	const response = await update(req);
 	await refresh(response);
+	await ref(response);
 	
 });
 
@@ -91,10 +92,20 @@ self.addEventListener('push', async e => {
 	var num = 1;
 	await self.registration.showNotification('Обновление контента', {
 		body: ++num > 1 ? e.data.text() : 'Херь для теста',
+		icon: './img/icons/icon-72x72.png',
 		tag: 'spell'
 	});
 });
 
+async function ref (res) {
+	var num = 1;
+	const text = await res.data.text();
+	await self.registration.showNotification('Обновление контента', {
+		body: ++num >1 ? text + ' Данные' : 'Полная херь',
+		icon: './img/icons/icon-72x72.png',
+		tag: 'spell'
+	});
+}
 async function netAndCache (req) {
 	const cached = await caches.open(cache);
 	try {
