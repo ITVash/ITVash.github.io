@@ -105,8 +105,8 @@ async function ref (res) {
 		url: res.url,
 		body: ++num >1 ? 'Новые данные на ресурсе' : 'Полная херь',
 		icon: './img/icons/icon-72x72.png',
-		eTag: res.headers.get('ETag')
-		//tag: 'spell'
+		//eTag: res.headers.get('ETag')
+		tag: 'spell'
 	});
 }
 async function netAndCache (req) {
