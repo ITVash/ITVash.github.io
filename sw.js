@@ -1,3 +1,4 @@
+'use strict';
 const staticAssets = [
 	'./',
 	'https://code.jquery.com/jquery-3.3.1.slim.min.js',
@@ -124,6 +125,7 @@ self.addEventListener('notificationclick', async e => {
 async function ref (res) {
 	var num = 1;
 	//const text = await res.data.text();
+	console.log('ссылка для перехода: ', res.url);
 	await self.registration.showNotification('Обновление контента', {
 		type: 'refresh',
 		url: res.url,
