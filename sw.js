@@ -99,9 +99,9 @@ self.addEventListener('push', async e => {
 
 async function ref (res) {
 	var num = 1;
-	const text = await res.data.text();
+	//const text = await res.data.text();
 	await self.registration.showNotification('Обновление контента', {
-		body: ++num >1 ? text + ' Данные' : 'Полная херь',
+		body: ++num >1 ? 'Новые данные на ресурсе' : 'Полная херь',
 		icon: './img/icons/icon-72x72.png',
 		tag: 'spell'
 	});
