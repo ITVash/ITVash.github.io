@@ -6,23 +6,26 @@ window.addEventListener('beforeinstallprompt', (e) => {
 /*window.addEventListener('appinstalled', (evt) => {
   app.logEvent('a2hs', 'installed');
 });*/
+'use strict';
 window.addEventListener('load', async e=>{
-	//loadDO();
-if ('serviceWorker' in navigator) {
-	/*try {
-		navigator.serviceWorker.register('../sw.js');
-		console.log('SW Registered');
-	} catch(e) {
-		console.log('SW not Registered');
-	}*/
-	// Весь код регистрации у нас асинхронный.
-    navigator.serviceWorker.register('../sw.js')
-      .then(() => navigator.serviceWorker.ready.then((worker) => {
-        worker.sync.register('syncdata');
-      }))
-      .catch((err) => console.log(err));
-}
+	swRegister();
 });
+async function swRegister () {
+	if ('serviceWorker' in navigator) {
+		try {
+			const registration = await navigator.serviceWorker.register('../sw.js');
+			console.log('Регистрация SW прошла успешно: ', registration);	
+			const reg = await navigator.serviceWorker.ready;
+			console.log('Service Worker готов к работе: ', reg);
+			const sub = await reg.pushManager.subscribe({userVisibleOnly: true});
+			console.log('endpoint: ', sub.endpoint);		
+		} catch(e) {
+			console.log('SW Не прошла регистрацию: '+ e);
+		}
+	} else {
+		console.log('Браузер не поддерживает технологию SW!!!');
+	}
+}
 function loadDO () {
 	let header = new Headers({
     'Access-Control-Allow-Origin':'*',
