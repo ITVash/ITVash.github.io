@@ -83,18 +83,42 @@ self.addEventListener('fetch', async e => {
 	
 });
 
-self.addEventListener('message', e => {
+/*self.addEventListener('message', e => {
 	console.log('Обновление контента: ', e.data);
 	e.source.postMessage('Обновление контента: ', e.origin)
-});
+});*/
 
 self.addEventListener('push', async e => {
-	var num = 1;
+	/*var num = 1;
 	await self.registration.showNotification('Обновление контента', {
 		body: ++num > 1 ? e.data.text() : 'Херь для теста',
 		icon: './img/icons/icon-72x72.png',
 		tag: 'spell'
-	});
+	});*/
+	const res = await fetch('./upd.json');
+	if (res.status === 200) {
+		try {
+			const data = await res.json();
+			const ntf = await data.notification;
+			if (data.error || !ntf) {
+				console.log('Ошибка загрузки файла или неправельный формат файла!');
+			}
+			return self.registration.showNotification(ntf.title, {
+				body: ntf.body,
+				icon: ntf.icon
+			});
+		} catch(e) {
+			console.log('Что-то пошло не так: ', e);
+		}
+	} else {
+		console.log('Нет данных об обновлении!!!');
+	}
+});
+
+self.addEventListener('notificationclick', async e => {
+	e.notification.close();
+	var url = location.href;
+	await clients.openWindow(url);
 });
 
 async function ref (res) {

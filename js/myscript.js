@@ -18,7 +18,11 @@ async function swRegister () {
 			const reg = await navigator.serviceWorker.ready;
 			console.log('Service Worker готов к работе: ', reg);
 			const sub = await reg.pushManager.subscribe({userVisibleOnly: true});
-			console.log('endpoint: ', sub.endpoint);		
+			console.log('endpoint: ', sub.endpoint);
+			//var get = new XMLHttpRequest();
+			//get.open('GET', location.href + 'createpushadresat?adresat=' + sub.endpoint, false);
+			//get.send( null );
+			//$.get(location.href + 'createpushadresat?adresat=' + sub.endpoint, data => {})
 		} catch(e) {
 			console.log('SW Не прошла регистрацию: '+ e);
 		}

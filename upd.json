@@ -1,0 +1,7 @@
+{
+	"notification": {
+		"title": "PWA Alexis",
+		"body": "Новый контент. Посмотри, это стоит внимания!!!",
+		"icon": "./img/icons/icon-72x72.png"
+	}
+}
