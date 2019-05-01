@@ -78,7 +78,7 @@ self.addEventListener('fetch', async e => {
 		.then(refresh2)
 	);*/
 	const response = await update(req);
-	await refresh(response);
+	//await refresh(response);
 	await ref(response);
 	
 });
@@ -101,6 +101,8 @@ async function ref (res) {
 	var num = 1;
 	//const text = await res.data.text();
 	await self.registration.showNotification('Обновление контента', {
+		type: 'refresh',
+		url: res.url,
 		body: ++num >1 ? 'Новые данные на ресурсе' : 'Полная херь',
 		icon: './img/icons/icon-72x72.png',
 		tag: 'spell'
