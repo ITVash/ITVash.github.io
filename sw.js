@@ -88,7 +88,7 @@ self.addEventListener('message', e => {
 });
 
 self.addEventListener('push', async e => {
-	const num = 1;
+	var num = 1;
 	await self.registration.showNotification('Обновление контента', {
 		body: ++num > 1 ? 'Новый контент' : 'Херь для теста',
 		tag: 'spell'
