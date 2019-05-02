@@ -76,7 +76,6 @@ self.addEventListener('fetch', async e => {
 	const response = await update(req);
 	await fetching('https://gcm-http.googleapis.com/gcm/send', 'f8ILBWqNSaw:APA91bGhhX8Er0gkha4jd1MXwdqCAXc13Dz9YwgT4r8wGonXxkD0Pb5R1nHWzbY2kNvK8rDM663qRh6ymEq679HlGTBpgXpY1BXCgu_I2-AK3r2pc6KtIWOj7aXi3pwl8iyTQ3kEoHfb');
 	//await ref(response);
-	console.log('Ключь пользователя', self.sub.endpoint);
 });
 
 self.addEventListener('push', async e => {
