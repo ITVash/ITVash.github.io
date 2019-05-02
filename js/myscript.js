@@ -7,6 +7,9 @@ window.addEventListener('beforeinstallprompt', (e) => {
   app.logEvent('a2hs', 'installed');
 });*/
 'use strict';
+var endpoint,
+		key,
+		auth;
 window.addEventListener('load', async e=>{
 	swRegister();
 });
@@ -18,12 +21,17 @@ async function swRegister () {
 			const reg = await navigator.serviceWorker.ready;
 			console.log('Service Worker готов к работе: ', reg);
 			const sub = await reg.pushManager.subscribe({userVisibleOnly: true});
-			console.log('endpoint: ', sub.endpoint);
+			const keys = await sub.getKey ? sub.getKey('p256dh') : '';
+			key = keys ? btoa(String.fromCharCode(null, new Uint8Array(keys))) : '';
+			const gauth = await sub.getKey ? sub.getKey('auth') : '';
+			auth = gauth ? btoa(String.fromCharCode(null, new Uint8Array(gauth))) : '';
+			endpoint = sub.endpoint;
+			console.log('auth: ', auth);
+			console.log('key: ', key);
+			console.log('endpoint: ', endpoint);
+			
 			//await fetch(location.href + 'createpushadresat?adresat=' + sub.endpoint, {method: 'GET'});
-			//var get = new XMLHttpRequest();
-			//get.open('GET', location.href + 'createpushadresat?adresat=' + sub.endpoint, false);
-			//get.send( null );
-			//$.get(location.href + 'createpushadresat?adresat=' + sub.endpoint, data => {})
+			
 		} catch(e) {
 			console.log('SW Не прошла регистрацию: '+ e);
 		}

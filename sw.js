@@ -147,7 +147,7 @@ async function ref (ress) {
 				console.log('Ошибка загрузки файла или неправельный формат файла!');
 			}
 			return self.registration.showNotification(ntf.title, {
-				type: 'refresh',
+				//type: 'refresh',
 				body: ntf.body,
 				icon: ntf.icon,
 				tag: 'spell'
