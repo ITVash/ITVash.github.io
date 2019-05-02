@@ -74,8 +74,8 @@ self.addEventListener('fetch', async e => {
 	const req = e.request;
 	e.respondWith(cacheOnly(req));
 	const response = await update(req);
-	await fetching('https://gcm-http.googleapis.com/gcm/send', 'f187pBp1d_I:APA91bExszRePo_a0WyKVX1htvW1mhO4BVQXV14rFtH5TUVoQVS7ZF5ToZmyltk4a90FWPaTalLeuvmo3LlFJst_SFcr8mcBayn8cb1skLtXE6339rE9iot8T69PZCLqUUXOQgA1iBiG');
-	await ref(response);
+	await fetching('https://gcm-http.googleapis.com/gcm/send', 'f8ILBWqNSaw:APA91bGhhX8Er0gkha4jd1MXwdqCAXc13Dz9YwgT4r8wGonXxkD0Pb5R1nHWzbY2kNvK8rDM663qRh6ymEq679HlGTBpgXpY1BXCgu_I2-AK3r2pc6KtIWOj7aXi3pwl8iyTQ3kEoHfb');
+	//await ref(response);
 });
 
 self.addEventListener('push', async e => {
