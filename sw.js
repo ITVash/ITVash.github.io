@@ -52,12 +52,12 @@ const cache = 'static-cache';
 self.addEventListener('install', async e => {
 	const cached = await caches.open(cache);
 	await cached.addAll(staticAssets);
-	//return self.skipWaiting();
+	return self.skipWaiting();
 });
 
-/*self.addEventListener('activate', e => {
+self.addEventListener('activate', e => {
 	self.clients.claim();
-});*/
+});
 
 /*self.addEventListener('fetch', e => {
 	const req = e.request;
