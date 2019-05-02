@@ -116,7 +116,7 @@ async function fetching (url, endpoint) {
 		method: 'POST',
 		headers: {
 			'Content-type': 'application/json',
-			'Authorization': 'key=AIzaSyCHS2Ik08vfjP71gyW7MdAi_eg2W5_GZoY'
+			'Authorization': 'key=AIzaSyDuxxwy_swXLCS6VLBHORHzJ9B_CgjwmTM'
 		},
 		body: {
 			'to': endpoint,
