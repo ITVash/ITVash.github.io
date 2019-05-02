@@ -118,7 +118,7 @@ self.addEventListener('push', async e => {
 
 self.addEventListener('notificationclick', async e => {
 	e.notification.close();
-	var url = location.href;
+	const url = await location.protocol + '//' + location.host;
 	await clients.openWindow(url);
 });
 
