@@ -69,25 +69,14 @@ self.addEventListener('install', async e => {
 	}
 	
 });*/
+
 self.addEventListener('fetch', async e => {
 	const req = e.request;
-	//const url = new URL(req.url);
-	
 	e.respondWith(cacheOnly(req));
-	//e.respondWith(fromCache(req));
-	/*e.waitUntil(upd(req)
-		.then(refresh2)
-	);*/
 	const response = await update(req);
-	//await refresh(response);
+	await fetching('https://gcm-http.googleapis.com/gcm/send', 'f187pBp1d_I:APA91bExszRePo_a0WyKVX1htvW1mhO4BVQXV14rFtH5TUVoQVS7ZF5ToZmyltk4a90FWPaTalLeuvmo3LlFJst_SFcr8mcBayn8cb1skLtXE6339rE9iot8T69PZCLqUUXOQgA1iBiG');
 	await ref(response);
-	
 });
-
-/*self.addEventListener('message', e => {
-	console.log('Обновление контента: ', e.data);
-	e.source.postMessage('Обновление контента: ', e.origin)
-});*/
 
 self.addEventListener('push', async e => {
 	/*var num = 1;
@@ -121,6 +110,32 @@ self.addEventListener('notificationclick', async e => {
 	const url = await location.protocol + '//' + location.host;
 	await clients.openWindow(url);
 });
+
+async function fetching (url, endpoint) {
+	const opt = {
+		method: 'POST',
+		headers: {
+			'Content-type': 'application/json',
+			'Authorization': 'key=AIzaSyCHS2Ik08vfjP71gyW7MdAi_eg2W5_GZoY'
+		},
+		body: {
+			'to': endpoint,
+			'data': {
+				'title': 'Ну если получилось',
+				'icon': './img/icons/icon-72x72.png',
+				'text': 'Ура новый контент!!!'
+			}
+		}
+	};
+	try {
+		const res = await fetch(url, opt);
+		console.log('Вот что мы имеем: ', res);
+		return res;
+	} catch(e) {
+		// statements
+		console.log('Не улетел запросс((((: ',e);
+	}
+}
 
 async function ref (res) {
 	var num = 1;
@@ -157,12 +172,11 @@ async function update (req) {
 	try {
 		const res = await fetch(req);
 		await cached.put(req, res.clone());
-		//console.log('Должно быть обновление контента но хуй: '+ res);
 		return res;
-		//return refresh(res);
 	} catch(e) {
-		const cacheRead = await cached.match(req);
-		return cacheRead;
+		//const cacheRead = await cached.match(req);
+		//return cacheRead;
+		console.log('Нет интернета. Попробуйте позже! ', e);
 	}
 }
 
@@ -175,22 +189,6 @@ async function refresh (res) {
 			eTag: res.headers.get('ETag')
 		};
 		cltMsg.postMessage(JSON.stringify(msg));
-	});
-}
-
-function refresh2 (response) {
-	return self.clients.matchAll().then((clients) => {
-		clients.forEach((client) => {
-			// Подробнее про ETag можно прочитать тут
-			// https://en.wikipedia.org/wiki/HTTP_ETag
-			const message = {
-					type: 'refresh',
-					url: response.url,
-					eTag: response.headers.get('ETag')
-			};
-			// Уведомляем клиент об обновлении данных.
-			client.postMessage(JSON.stringify(message));
-		});
 	});
 }
 
