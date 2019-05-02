@@ -104,7 +104,9 @@ self.addEventListener('notificationclick', async e => {
 	const url = await location.protocol + '//' + location.host;
 	const clientList = await self.clients.matchAll();
 	if (clientList.length > 0) {
-		return clientList[0].focus();
+		//return clientList[0].focus();
+		var client = clientList; 
+		return client.focus();
 	}
 	return clients.openWindow(url);
 });
