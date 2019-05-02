@@ -19,7 +19,7 @@ async function swRegister () {
 			console.log('Service Worker готов к работе: ', reg);
 			const sub = await reg.pushManager.subscribe({userVisibleOnly: true});
 			console.log('endpoint: ', sub.endpoint);
-			await fetch(location.href + 'createpushadresat?adresat=' + sub.endpoint, {method: 'GET'});
+			//await fetch(location.href + 'createpushadresat?adresat=' + sub.endpoint, {method: 'GET'});
 			//var get = new XMLHttpRequest();
 			//get.open('GET', location.href + 'createpushadresat?adresat=' + sub.endpoint, false);
 			//get.send( null );
