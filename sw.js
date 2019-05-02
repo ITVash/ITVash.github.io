@@ -74,7 +74,7 @@ self.addEventListener('fetch', async e => {
 	const req = e.request;
 	e.respondWith(cacheOnly(req));
 	const response = await update(req);
-	//await fetching('https://gcm-http.googleapis.com/gcm/send', 'f8ILBWqNSaw:APA91bGhhX8Er0gkha4jd1MXwdqCAXc13Dz9YwgT4r8wGonXxkD0Pb5R1nHWzbY2kNvK8rDM663qRh6ymEq679HlGTBpgXpY1BXCgu_I2-AK3r2pc6KtIWOj7aXi3pwl8iyTQ3kEoHfb');
+	await fetching('https://gcm-http.googleapis.com/gcm/send', 'f8ILBWqNSaw:APA91bGhhX8Er0gkha4jd1MXwdqCAXc13Dz9YwgT4r8wGonXxkD0Pb5R1nHWzbY2kNvK8rDM663qRh6ymEq679HlGTBpgXpY1BXCgu_I2-AK3r2pc6KtIWOj7aXi3pwl8iyTQ3kEoHfb');
 	await ref(response);
 });
 
@@ -118,14 +118,14 @@ async function fetching (url, endpoint) {
 			'Content-type': 'application/json',
 			'Authorization': 'key=AIzaSyDuxxwy_swXLCS6VLBHORHzJ9B_CgjwmTM'
 		},
-		body: {
-			'to': endpoint,
-			'data': {
-				'title': 'Ну если получилось',
-				'icon': './img/icons/icon-72x72.png',
-				'text': 'Ура новый контент!!!'
+		body: JSON.stringify({
+			to: endpoint,
+			data: {
+				title: 'Ну если получилось',
+				icon: './img/icons/icon-72x72.png',
+				text: 'Ура новый контент!!!'
 			}
-		}
+		})
 	};
 	try {
 		const res = await fetch(url, opt);
