@@ -74,17 +74,11 @@ self.addEventListener('fetch', async e => {
 	const req = e.request;
 	e.respondWith(cacheOnly(req));
 	const response = await update(req);
-	await fetching('https://gcm-http.googleapis.com/gcm/send', 'f8ILBWqNSaw:APA91bGhhX8Er0gkha4jd1MXwdqCAXc13Dz9YwgT4r8wGonXxkD0Pb5R1nHWzbY2kNvK8rDM663qRh6ymEq679HlGTBpgXpY1BXCgu_I2-AK3r2pc6KtIWOj7aXi3pwl8iyTQ3kEoHfb');
+	//await fetching('https://gcm-http.googleapis.com/gcm/send', 'f8ILBWqNSaw:APA91bGhhX8Er0gkha4jd1MXwdqCAXc13Dz9YwgT4r8wGonXxkD0Pb5R1nHWzbY2kNvK8rDM663qRh6ymEq679HlGTBpgXpY1BXCgu_I2-AK3r2pc6KtIWOj7aXi3pwl8iyTQ3kEoHfb');
 	await ref(response);
 });
 
 self.addEventListener('push', async e => {
-	/*var num = 1;
-	await self.registration.showNotification('Обновление контента', {
-		body: ++num > 1 ? e.data.text() : 'Херь для теста',
-		icon: './img/icons/icon-72x72.png',
-		tag: 'spell'
-	});*/
 	const res = await fetch('./upd.json');
 	if (res.status === 200) {
 		try {
@@ -108,7 +102,11 @@ self.addEventListener('push', async e => {
 self.addEventListener('notificationclick', async e => {
 	e.notification.close();
 	const url = await location.protocol + '//' + location.host;
-	await clients.openWindow(url);
+	const clientList = await clients.matchAll();
+	if (clientList.length > 0) {
+		return clientList[0].focus();
+	}
+	return clients.openWindow(url);
 });
 
 async function fetching (url, endpoint) {
