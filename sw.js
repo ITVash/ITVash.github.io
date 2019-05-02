@@ -137,7 +137,7 @@ async function fetching (url, endpoint) {
 	}
 }
 
-async function ref (res) {
+async function ref (ress) {
 	const res = await fetch('./upd.json');
 	if (res.status === 200) {
 		try {
