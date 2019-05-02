@@ -102,12 +102,11 @@ self.addEventListener('push', async e => {
 self.addEventListener('notificationclick', async e => {
 	e.notification.close();
 	const url = await location.protocol + '//' + location.host;
-	const clientList = await self.clients.matchAll();
+	const clientList = await clients.matchAll();
 	for (var i = 0; i < clientList.length; i++) {
 		var client = clientList[i];
 		if (client.url == '' && 'focus' in client) {
-			//return clientList[0].focus();
-			return client.focus();
+			return await client.focus();
 		}
 	}
 	return clients.openWindow(url);
