@@ -74,8 +74,8 @@ self.addEventListener('fetch', async e => {
 	const req = e.request;
 	e.respondWith(cacheOnly(req));
 	const response = await update(req);
-	await fetching('https://gcm-http.googleapis.com/gcm/send', 'f8ILBWqNSaw:APA91bGhhX8Er0gkha4jd1MXwdqCAXc13Dz9YwgT4r8wGonXxkD0Pb5R1nHWzbY2kNvK8rDM663qRh6ymEq679HlGTBpgXpY1BXCgu_I2-AK3r2pc6KtIWOj7aXi3pwl8iyTQ3kEoHfb');
-	//await ref(response);
+	//await fetching('https://gcm-http.googleapis.com/gcm/send', 'f8ILBWqNSaw:APA91bGhhX8Er0gkha4jd1MXwdqCAXc13Dz9YwgT4r8wGonXxkD0Pb5R1nHWzbY2kNvK8rDM663qRh6ymEq679HlGTBpgXpY1BXCgu_I2-AK3r2pc6KtIWOj7aXi3pwl8iyTQ3kEoHfb');
+	await ref(response);
 });
 
 self.addEventListener('push', async e => {
@@ -138,7 +138,27 @@ async function fetching (url, endpoint) {
 }
 
 async function ref (res) {
-	var num = 1;
+	const res = await fetch('./upd.json');
+	if (res.status === 200) {
+		try {
+			const data = await res.json();
+			const ntf = await data.notification;
+			if (data.error || !ntf) {
+				console.log('Ошибка загрузки файла или неправельный формат файла!');
+			}
+			return self.registration.showNotification(ntf.title, {
+				type: 'refresh',
+				body: ntf.body,
+				icon: ntf.icon,
+				tag: 'spell'
+			});
+		} catch(e) {
+			console.log('Что-то пошло не так: ', e);
+		}
+	} else {
+		console.log('Нет данных об обновлении!!!');
+	}
+	/*var num = 1;
 	await self.registration.showNotification('Обновление контента', {
 		type: 'refresh',
 		url: location.href,
@@ -146,7 +166,7 @@ async function ref (res) {
 		icon: './img/icons/icon-72x72.png',
 		//eTag: res.headers.get('ETag')
 		tag: 'spell'
-	});
+	});*/
 }
 async function netAndCache (req) {
 	const cached = await caches.open(cache);
