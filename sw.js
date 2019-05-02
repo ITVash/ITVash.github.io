@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 const staticAssets = [
 	'./',
 	'https://code.jquery.com/jquery-3.3.1.slim.min.js',
@@ -102,7 +102,7 @@ self.addEventListener('push', async e => {
 self.addEventListener('notificationclick', async e => {
 	e.notification.close();
 	const url = await location.protocol + '//' + location.host;
-	const clientList = await clients.matchAll();
+	const clientList = await self.clients.matchAll();
 	if (clientList.length > 0) {
 		return clientList[0].focus();
 	}
