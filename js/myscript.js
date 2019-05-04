@@ -20,7 +20,10 @@ async function swRegister () {
 			console.log('Регистрация SW прошла успешно: ', registration);	
 			const reg = await navigator.serviceWorker.ready;
 			console.log('Service Worker готов к работе: ', reg);
-			const sub = await reg.pushManager.subscribe({userVisibleOnly: true});
+			const sub = await reg.pushManager.subscribe({
+				userVisibleOnly: true,
+				applicationServerKey: btoa('BPBwT2SKbnMWOv9sLwDwx7gk8BSZTKKlu8onk8iPjsg3I16UVvOPv0Jpp42jZR1JUJQUwDTdFXXCIysGNH5kdjY')
+			});
 			const keys = await sub.getKey ? sub.getKey('p256dh') : '';
 			key = keys ? btoa(String.fromCharCode(null, new Uint8Array(keys))) : '';
 			const gauth = await sub.getKey ? sub.getKey('auth') : '';
@@ -29,6 +32,7 @@ async function swRegister () {
 			console.log('auth: ', auth);
 			console.log('key: ', key);
 			console.log('endpoint: ', endpoint);
+			console.log('Subscribe: ', JSON.stringify(sub));
 			
 			//await fetch(location.href + 'createpushadresat?adresat=' + sub.endpoint, {method: 'GET'});
 			
