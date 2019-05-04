@@ -22,7 +22,7 @@ async function swRegister () {
 			console.log('Service Worker готов к работе: ', reg);
 			const sub = await reg.pushManager.subscribe({
 				userVisibleOnly: true,
-				applicationServerKey: btoa('AAAArBMpuiI:APA91bEpb_Q0ZKTHVayxYdygRAz150ouLqT5ARi4tq3dBHU2Ln3lnDV9aX6Uz3xRNMBlhowWDWYZm-k6Rj8ZVsN47fMk4MxCQl7L0L4JAolvlIxavfQJmBTXfQ2OFLHxckuK9QdyzPHm')
+				applicationServerKey: 'AAAArBMpuiI:APA91bEpb_Q0ZKTHVayxYdygRAz150ouLqT5ARi4tq3dBHU2Ln3lnDV9aX6Uz3xRNMBlhowWDWYZm-k6Rj8ZVsN47fMk4MxCQl7L0L4JAolvlIxavfQJmBTXfQ2OFLHxckuK9QdyzPHm'
 			});
 			const keys = await sub.getKey ? sub.getKey('p256dh') : '';
 			key = keys ? btoa(String.fromCharCode(null, new Uint8Array(keys))) : '';
