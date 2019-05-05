@@ -10,6 +10,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 var endpoint,
 		key,
 		auth;
+const serverPublicKey = 'BM5dZ6wzllLLrf2hc8RaTkGX5Lvd1xoqxTezYeHyCQe3sQWNykmk8SoC6M3A2LxIefdZPMU1mt0PcYcMpqzN6QI';
 window.addEventListener('load', async e=>{
 	swRegister();
 });
@@ -20,9 +21,10 @@ async function swRegister () {
 			console.log('Регистрация SW прошла успешно: ', registration);	
 			const reg = await navigator.serviceWorker.ready;
 			console.log('Service Worker готов к работе: ', reg);
+			const serverKey = await url64To8Array(serverPublicKey);
 			const sub = await reg.pushManager.subscribe({
 				userVisibleOnly: true,
-				applicationServerKey: 'AAAArBMpuiI:APA91bEpb_Q0ZKTHVayxYdygRAz150ouLqT5ARi4tq3dBHU2Ln3lnDV9aX6Uz3xRNMBlhowWDWYZm-k6Rj8ZVsN47fMk4MxCQl7L0L4JAolvlIxavfQJmBTXfQ2OFLHxckuK9QdyzPHm'
+				applicationServerKey: serverKey
 			});
 			const keys = await sub.getKey ? sub.getKey('p256dh') : '';
 			key = keys ? btoa(String.fromCharCode(null, new Uint8Array(keys))) : '';
@@ -55,6 +57,23 @@ function loadDO () {
     document.body.innerHTML = body
   });
 }
+
+function url64To8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+
 $(document).ready(function(){
   //menu
   $('.navbar__btn').on('click', function(){
