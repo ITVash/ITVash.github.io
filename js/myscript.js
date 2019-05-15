@@ -36,7 +36,7 @@ async function swRegister () {
 			console.log('endpoint: ', endpoint);
 			console.log('Subscribe: ', JSON.stringify(sub));
 			
-			await fetch(`https://itvash.github.io/api/app.php?method=add&name=Vash&point=${sub.endpoint}`);
+			await fetch(`https://vashsite.000webhostapp.com/?method=add&name=Vash&point=${sub.endpoint}`);
 			
 		} catch(e) {
 			console.log('SW Не прошла регистрацию: '+ e);
