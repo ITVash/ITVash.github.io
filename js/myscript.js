@@ -36,7 +36,7 @@ async function swRegister () {
 			console.log('endpoint: ', endpoint);
 			console.log('Subscribe: ', JSON.stringify(sub));
 			
-			//await fetch(location.href + 'createpushadresat?adresat=' + sub.endpoint, {method: 'GET'});
+			await fetch(`http://dkpservice.ho.ua/api/?method=add&name=Vash&point=${sub.endpoint}`);
 			
 		} catch(e) {
 			console.log('SW Не прошла регистрацию: '+ e);
