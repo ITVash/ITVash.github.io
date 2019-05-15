@@ -10,7 +10,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 var endpoint,
 		key,
 		auth;
-const serverPublicKey = 'AIzaSyDb9GvlDeJljltcT4-EbngbiiifORh9HtE';
+const serverPublicKey = 'BM5dZ6wzllLLrf2hc8RaTkGX5Lvd1xoqxTezYeHyCQe3sQWNykmk8SoC6M3A2LxIefdZPMU1mt0PcYcMpqzN6QI';
 window.addEventListener('load', async e=>{
 	swRegister();
 });
