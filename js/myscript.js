@@ -32,7 +32,7 @@ async function swRegister () {
 			auth = gauth ? btoa(String.fromCharCode(null, new Uint8Array(gauth))) : '';
 			endpoint = sub.endpoint;
 			console.log('auth: ', auth);
-			console.log('key: ', sub.getKey('p256dh'));
+			console.log('key: ', url64To8Array(sub.getKey('p256dh')));
 			console.log('endpoint: ', endpoint);
 			console.log('Subscribe: ', JSON.stringify(sub));
 			
