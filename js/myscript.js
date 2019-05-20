@@ -12,7 +12,7 @@ var endpoint,
 		auth;
 //const serverPublicKey = 'BM5dZ6wzllLLrf2hc8RaTkGX5Lvd1xoqxTezYeHyCQe3sQWNykmk8SoC6M3A2LxIefdZPMU1mt0PcYcMpqzN6QI';
 const serverPublicKey = 'BCrUeDusQfiTANnAqp5wlUFYlas-U8AwdaovfyZCeY8evMSrPwP26luttV66qFOp8Zb1mYZ43VEg4pHGQEBYfvg';
-const getsend = ocument.querySelector('.slogan__text_button');
+const getsend = document.querySelector('.slogan__text_button');
 window.addEventListener('load', async e=>{
 	swRegister();
 });
