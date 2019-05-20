@@ -23,9 +23,9 @@ getsend.addEventListener('click', async e => {
 async function send () {
 	//const link = await endpoint.startswith('https://fcm.googleapis.com/fcm/send');
 	//const 
-	const res = fetch('https://vashsite.000webhostapp.com/?method=view',{mode: 'no-cors'});
-	const data = res.json();
-	console.log(data);
+	const res = await fetch('https://vashsite.000webhostapp.com/?method=view',{mode: 'no-cors'});
+	const data = await res.json();
+	console.log(JSON.stringify(data));
 }
 async function swRegister () {
 	if ('serviceWorker' in navigator) {
