@@ -12,9 +12,21 @@ var endpoint,
 		auth;
 //const serverPublicKey = 'BM5dZ6wzllLLrf2hc8RaTkGX5Lvd1xoqxTezYeHyCQe3sQWNykmk8SoC6M3A2LxIefdZPMU1mt0PcYcMpqzN6QI';
 const serverPublicKey = 'BCrUeDusQfiTANnAqp5wlUFYlas-U8AwdaovfyZCeY8evMSrPwP26luttV66qFOp8Zb1mYZ43VEg4pHGQEBYfvg';
+const getsend = ocument.querySelector('.slogan__text_button');
 window.addEventListener('load', async e=>{
 	swRegister();
 });
+getsend.addEventListener('click', async e => {
+	e.preventDefault();
+	await send();
+});
+async function send () {
+	//const link = await endpoint.startswith('https://fcm.googleapis.com/fcm/send');
+	//const 
+	const res = fetch('https://vashsite.000webhostapp.com/?method=view',{mode: 'no-cors'});
+	const data = res.json();
+	console.log(data);
+}
 async function swRegister () {
 	if ('serviceWorker' in navigator) {
 		try {
