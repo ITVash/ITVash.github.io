@@ -94,6 +94,8 @@ $(document).ready(function(){
 			data:{
 				"method": "view"
 			}
+		}).done(str => {
+			console.log('Result: '+ str);
 		});
 	});
   //menu
