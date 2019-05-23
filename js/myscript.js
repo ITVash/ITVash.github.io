@@ -89,7 +89,7 @@ function url64To8Array(base64String) {
 
 $(document).ready(function(){
 	$('.slogan__text_button').on('click', e => {
-		$.ajax({
+		jQuery.ajax({
 			url:"https://vashsite.000webhostapp.com/index.php",
 			data:{
 				"method": "view"
