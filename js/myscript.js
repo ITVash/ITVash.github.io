@@ -16,10 +16,10 @@ const getsend = document.querySelector('.slogan__text_button');
 window.addEventListener('load', async e=>{
 	swRegister();
 });
-getsend.addEventListener('click', async e => {
+/*getsend.addEventListener('click', async e => {
 	e.preventDefault();
 	await send();
-});
+});*/
 async function send () {
 	//const link = await endpoint.startswith('https://fcm.googleapis.com/fcm/send');
 	//const 
@@ -88,6 +88,14 @@ function url64To8Array(base64String) {
 
 
 $(document).ready(function(){
+	$('.slogan__text_button').on('click', e => {
+		$.ajax({
+			url:"https://vashsite.000webhostapp.com/index.php",
+			data:{
+				"method": "view"
+			}
+		});
+	});
   //menu
   $('.navbar__btn').on('click', function(){
   	$(this).toggleClass('activ');
